@@ -18,10 +18,10 @@ header div.background {
 }
 
 .custom-colorable {
-  fill: #A0A0A0 !important;
+  fill: #000000 !important;
 }
 
 body {
   background-color: #FFFFFF !important;
-  color: #828282 !important;
+  color: #000000 !important;
 }
