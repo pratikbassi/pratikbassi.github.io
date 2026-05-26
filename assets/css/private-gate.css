@@ -1,0 +1,96 @@
+.header-nav-link {
+    position: relative;
+    z-index: 3;
+    display: inline-block;
+    margin: 26px 20px 0 0;
+    font-size: 13px;
+    color: #999999;
+    text-decoration: none;
+}
+
+.header-nav-link:hover {
+    color: #000000;
+}
+
+body.private-locked {
+    overflow: hidden;
+}
+
+.gallery-app--locked {
+    display: none !important;
+}
+
+.private-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+.private-gate__panel {
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+}
+
+.private-gate__title {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.private-gate__hint {
+    margin: 0 0 20px;
+    font-size: 13px;
+    color: #999999;
+}
+
+.private-gate__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.private-gate__input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cccccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.private-gate__button {
+    padding: 10px 12px;
+    border: 0;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.private-gate__button:hover {
+    background-color: #333333;
+}
+
+.private-gate__error {
+    min-height: 1.2em;
+    margin: 0;
+    font-size: 13px;
+    color: #b00020;
+}
+
+.private-gate__back {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 13px;
+    color: #999999;
+}
+
+.private-gate__back:hover {
+    color: #000000;
+}

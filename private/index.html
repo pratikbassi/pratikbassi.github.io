@@ -6,25 +6,39 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Pratik Bassi</title>
+        <title>Private — Pratik Bassi</title>
         <meta name="description" content="">
+        <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="assets/css/normalize.css">
-        <link rel="stylesheet" type="text/css" href="assets/css/main.css">
-        <link rel="stylesheet" type="text/css" media="screen" title="Custom Settings" href="assets/css/custom.css" >
-        <link rel="stylesheet" type="text/css" href="assets/css/private-gate.css">
-        <script src="assets/js/libs/modernizr.custom.23122.js"></script>
+        <link rel="stylesheet" type="text/css" href="../assets/css/normalize.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+        <link rel="stylesheet" type="text/css" media="screen" title="Custom Settings" href="../assets/css/custom.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/private-gate.css">
+        <script src="../assets/js/libs/modernizr.custom.23122.js"></script>
     </head>
-    <body class="has-header row-spacing-lg" data-pagination-style="scroll" data-target-row-height="300">
+    <body class="has-header row-spacing-lg private-locked" data-pagination-style="scroll" data-target-row-height="300" data-requires-private-auth="true" data-image-encrypted="true" data-image-root="../images/private/encrypted">
+        <div id="privateGate" class="private-gate">
+            <div class="private-gate__panel">
+                <h1 class="private-gate__title">Private gallery</h1>
+                <p class="private-gate__hint">Enter the password to continue.</p>
+                <form id="privateGateForm" class="private-gate__form" autocomplete="off">
+                    <input id="privateGatePassword" class="private-gate__input" type="password" name="password" placeholder="Password" required>
+                    <button class="private-gate__button" type="submit">Enter</button>
+                    <p id="privateGateError" class="private-gate__error" role="alert"></p>
+                </form>
+                <a class="private-gate__back" href="../">← Public gallery</a>
+            </div>
+        </div>
+        <div id="galleryApp" class="gallery-app gallery-app--locked" aria-hidden="true">
                         <header class="">
             <div class="background"></div>
             <div class="meta-left">
-                <p id="galleryTitle" class="title">Pratik Bassi</p>
+                <p id="galleryTitle" class="title">Private</p>
                                 <p id="galleryAuthor" class="author"></p>
                                 </p>
             </div>
             <div class="meta-right">
-                <a href="private/" class="header-nav-link">Private</a>
+                <a href="../" class="header-nav-link">Public</a>
             </div>
             <ul class="gallery-meta">
                 <li id="buttonFullscreen" title="Fullscreen Mode">
@@ -114,53 +128,28 @@
                 </svg>
             </div>
         </div>
+        </div>
         <script type="text/javascript">
             var LR = LR || {};
-            LR.images = [                                                                                        {"id": "52086", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_5950", "title": "", "caption" : ""},
-                         {"id": "69568", "largeWidth": "1200", "largeHeight": "799", "exportFilename": "27678775685_da2b05062a_o", "title": "", "caption" : ""},
-                         {"id": "52102", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_5984", "title": "", "caption" : ""},
-                         {"id": "48856", "largeWidth": "1200", "largeHeight": "799", "exportFilename": "IMG_6480", "title": "", "caption" : ""},
-                         {"id": "52044", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_8085-2", "title": "", "caption" : ""},
-                         {"id": "21811", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_8967", "title": "", "caption" : ""},
-                         {"id": "22189", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_8995", "title": "", "caption" : ""},
-                         {"id": "69582", "largeWidth": "800", "largeHeight": "1200", "exportFilename": "IMG_9033", "title": "", "caption" : ""},
-                         {"id": "22887", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_9036", "title": "", "caption" : ""},
-                         {"id": "69600", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_9079", "title": "", "caption" : ""},
-                         {"id": "66842", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_1084", "title": "", "caption" : ""},
-                         {"id": "71960", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_1274", "title": "", "caption" : ""},
-                         {"id": "72904", "largeWidth": "705", "largeHeight": "1200", "exportFilename": "IMG_1342", "title": "", "caption" : ""},
-                         {"id": "73992", "largeWidth": "800", "largeHeight": "1200", "exportFilename": "IMG_1413", "title": "", "caption" : ""},
-                         {"id": "74696", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_1457", "title": "", "caption" : ""},
-                         {"id": "74990", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_1480", "title": "", "caption" : ""},
-                         {"id": "90104", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_2203", "title": "", "caption" : ""},
-                         {"id": "98441", "largeWidth": "814", "largeHeight": "1200", "exportFilename": "IMG_2725", "title": "", "caption" : ""},
-                         {"id": "99005", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_2767", "title": "", "caption" : ""},
-                         {"id": "105503", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_2997", "title": "", "caption" : ""},
-                         {"id": "105895", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "IMG_3024", "title": "", "caption" : ""},
-                         {"id": "105896", "largeWidth": "1200", "largeHeight": "777", "exportFilename": "20260504_0380", "title": "", "caption" : ""},
-                         {"id": "105897", "largeWidth": "1200", "largeHeight": "801", "exportFilename": "20260504_0404", "title": "", "caption" : ""},
-                         {"id": "105898", "largeWidth": "801", "largeHeight": "1200", "exportFilename": "20260504_0519", "title": "", "caption" : ""},
-                         {"id": "105899", "largeWidth": "801", "largeHeight": "1200", "exportFilename": "20260504_0557", "title": "", "caption" : ""},
-                         {"id": "105900", "largeWidth": "1200", "largeHeight": "801", "exportFilename": "20260504_0579", "title": "", "caption" : ""},
-                         {"id": "105901", "largeWidth": "1200", "largeHeight": "801", "exportFilename": "20260504_0585", "title": "", "caption" : ""},
-                         {"id": "105903", "largeWidth": "1200", "largeHeight": "801", "exportFilename": "20260520_0066", "title": "", "caption" : ""},
-                         {"id": "105904", "largeWidth": "1200", "largeHeight": "801", "exportFilename": "20260520_0110", "title": "", "caption" : ""},
-                         {"id": "105905", "largeWidth": "800", "largeHeight": "1200", "exportFilename": "DSC00910", "title": "", "caption" : ""},
-                         {"id": "105906", "largeWidth": "800", "largeHeight": "1200", "exportFilename": "DSC00914", "title": "", "caption" : ""},
-                         {"id": "105907", "largeWidth": "800", "largeHeight": "1200", "exportFilename": "DSC00942", "title": "", "caption" : ""},
-                         {"id": "105908", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "DSC01010", "title": "", "caption" : ""},
-                         {"id": "105909", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "DSC01014", "title": "", "caption" : ""},
-                         {"id": "105910", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "DSC01015", "title": "", "caption" : ""},
-                         {"id": "105911", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "DSC01045", "title": "", "caption" : ""},
-                         {"id": "105912", "largeWidth": "800", "largeHeight": "1200", "exportFilename": "DSC01060", "title": "", "caption" : ""},
-                         {"id": "105913", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "DSC01095", "title": "", "caption" : ""},
-                         {"id": "105914", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "DSC01163", "title": "", "caption" : ""},
-                         {"id": "105915", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "DSC01183", "title": "", "caption" : ""},
-                         {"id": "105916", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "DSC09201", "title": "", "caption" : ""},
-                                    ]        </script>
+            LR.images = [
+                         {"id": "100001", "largeWidth": "1200", "largeHeight": "801", "exportFilename": "20260504_0411", "title": "", "caption" : ""},
+                         {"id": "100002", "largeWidth": "1200", "largeHeight": "801", "exportFilename": "20260504_0526", "title": "", "caption" : ""},
+                         {"id": "100003", "largeWidth": "1200", "largeHeight": "801", "exportFilename": "20260520_0019", "title": "", "caption" : ""},
+                         {"id": "100004", "largeWidth": "1200", "largeHeight": "801", "exportFilename": "20260520_0086", "title": "", "caption" : ""},
+                         {"id": "100005", "largeWidth": "801", "largeHeight": "1200", "exportFilename": "20260520_0093", "title": "", "caption" : ""},
+                         {"id": "100006", "largeWidth": "1200", "largeHeight": "801", "exportFilename": "20260520_0110", "title": "", "caption" : ""},
+                         {"id": "100007", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "20260523_0004", "title": "", "caption" : ""},
+                         {"id": "100008", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "20260523_0010", "title": "", "caption" : ""},
+                         {"id": "100009", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "20260523_0017", "title": "", "caption" : ""},
+                         {"id": "100010", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "DSC09163", "title": "", "caption" : ""},
+                         {"id": "100011", "largeWidth": "1200", "largeHeight": "800", "exportFilename": "DSC09186", "title": "", "caption" : ""},
+                                    ]
+        </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="assets/js/libs/jquery-1.10.2.min.js"><\/script>')</script>
-        <script src="assets/js/libs/jquery.velocity.min.js"></script>
-        <script src="assets/js/main.js"></script>
+        <script>window.jQuery || document.write('<script src="../assets/js/libs/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="../assets/js/private-crypto.js"></script>
+        <script src="../assets/js/private-gate.js"></script>
+        <script src="../assets/js/libs/jquery.velocity.min.js"></script>
+        <script src="../assets/js/main.js"></script>
     </body>
 </html>

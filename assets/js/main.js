@@ -67,6 +67,34 @@ function init(){
         _paginationStyle = _$body.attr("data-pagination-style");
     }
 
+    var _imageRoot = _$body.attr("data-image-root") || "images";
+    var _largeDir = _imageRoot + "/large/";
+    var _thumbDir = _imageRoot + "/thumbnails/";
+    var _encrypted = _$body.attr("data-image-encrypted") === "true";
+    var _imageExt = _encrypted ? ".enc" : ".jpg";
+
+    function imagePath(dir, exportFilename) {
+        return dir + exportFilename + _imageExt;
+    }
+
+    function assignThumbSrc($img, exportFilename) {
+        var path = imagePath(_thumbDir, exportFilename);
+        if (!_encrypted) {
+            $img.attr("src", path);
+            return;
+        }
+        _thumbsToLoad++;
+        PrivateGate.decryptToObjectUrl(path).then(function (url) {
+            $img.attr("src", url);
+        }).catch(function () {
+            _thumbsToLoad--;
+            checkForSpace();
+        });
+    }
+
+    // Newest entries in index.html appear first in the gallery
+    LR.images.reverse();
+
     // Loop through the global JSON object
     for(i = 0; i < LR.images.length; i++) {
         // Set some new properties
@@ -85,7 +113,7 @@ function init(){
             LR.images[i].caption = "";
         }
         // Create the individual thumbnail partial
-        LR.images[i].$thumbnail = $('<div class="thumbnail not-loaded" data-large-img="images/large/'+ LR.images[i].exportFilename +'.jpg" data-id="ID'+ LR.images[i].id +'" data-title="' + LR.images[i].title + '" data-caption="' + LR.images[i].caption + '" data-native-width="' + LR.images[i].largeWidth + '" data-native-height="' + LR.images[i].largeHeight + '"><img class="thumb-img" src="" /></div>');
+        LR.images[i].$thumbnail = $('<div class="thumbnail not-loaded" data-large-img="' + imagePath(_largeDir, LR.images[i].exportFilename) + '" data-id="ID'+ LR.images[i].id +'" data-title="' + LR.images[i].title + '" data-caption="' + LR.images[i].caption + '" data-native-width="' + LR.images[i].largeWidth + '" data-native-height="' + LR.images[i].largeHeight + '"><img class="thumb-img" src="" /></div>');
         LR.images[i].$thumbnail.data("index", i);
         // Isolate the actual thumbnail image
         LR.images[i].$thumbnailImg = $(LR.images[i].$thumbnail.find("img")[0]);
@@ -131,10 +159,7 @@ function init(){
                 "click",
                 onThumbnailClick
             );
-            LR.images[i].$thumbnailImg.attr(
-                "src",
-                "images/thumbnails/" + LR.images[i].exportFilename + ".jpg"
-            );
+            assignThumbSrc(LR.images[i].$thumbnailImg, LR.images[i].exportFilename);
             _lastLoadedThumbIndex = LR.images[i].index;
         }
         sizeAllThumbnails();
@@ -222,10 +247,7 @@ function init(){
                     "error",
                     onThumbnailImgError
                 );
-               LR.images[i].$thumbnailImg.attr(
-                "src",
-                "images/thumbnails/" + LR.images[i].exportFilename + ".jpg"
-                );
+               assignThumbSrc(LR.images[i].$thumbnailImg, LR.images[i].exportFilename);
                 _lastLoadedThumbIndex = LR.images[i].index; 
             }
         }
@@ -277,10 +299,7 @@ function init(){
                     "error",
                     onThumbnailImgError
                 );
-                LR.images[i].$thumbnailImg.attr(
-                    "src",
-                    "images/thumbnails/" + LR.images[i].exportFilename + ".jpg"
-                );
+                assignThumbSrc(LR.images[i].$thumbnailImg, LR.images[i].exportFilename);
                 _lastLoadedThumbIndex = LR.images[i].index;
             }
             else if(LR.images[i].$thumbnail.data("currentRowOffsetTop") > _currentRowOffsetTop){
@@ -299,10 +318,7 @@ function init(){
                     "error",
                     onThumbnailImgError
                 );
-                LR.images[i].$thumbnailImg.attr(
-                    "src",
-                    "images/thumbnails/" + LR.images[i].exportFilename + ".jpg"
-                );
+                assignThumbSrc(LR.images[i].$thumbnailImg, LR.images[i].exportFilename);
                 _lastLoadedThumbIndex = LR.images[i].index;
             }
 
@@ -478,12 +494,23 @@ function init(){
 
     function loadImageForThumbnail($thumbnail) {
         _currentImageIndex = $thumbnail.data("index");
-        $('<img/>').css("opacity", 0).attr('src', $thumbnail.attr("data-large-img")).load(
-            function() {
-                $(this).remove();
-                setImage();
-            }
-        );
+        var largePath = $thumbnail.attr("data-large-img");
+
+        function preloadLarge(src) {
+            $('<img/>').css("opacity", 0).attr("src", src).load(
+                function() {
+                    $(this).remove();
+                    $thumbnail.data("decryptedLargeUrl", src);
+                    setImage();
+                }
+            );
+        }
+
+        if (_encrypted) {
+            PrivateGate.decryptToObjectUrl(largePath).then(preloadLarge);
+        } else {
+            preloadLarge(largePath);
+        }
         var _metadata = "";
         if($thumbnail.attr("data-title") != "nil" && $thumbnail.attr("data-title") != ""){
             _metadata += '<p class="title">' + $thumbnail.attr("data-title") + '</p>';
@@ -507,7 +534,7 @@ function init(){
         }
         _$loupeImage = $('<div class="image"></div>');
         _$loupeCorners = $('<div class="corners"></div>');
-        _$loupeImg = $('<img src="' + _$targetThumb.attr("data-large-img") + '"/>');
+        _$loupeImg = $('<img src="' + (_$targetThumb.data("decryptedLargeUrl") || _$targetThumb.attr("data-large-img")) + '"/>');
 
         _$loupeCorners.append(_$loupeImg);
         _$loupeImage.append(_$loupeCorners);
@@ -697,5 +724,11 @@ function init(){
 }
 
 $(document).ready(function(){
+    if ($("body").attr("data-requires-private-auth") === "true") {
+        if (window.PrivateGate) {
+            PrivateGate.whenAuthenticated(init);
+        }
+        return;
+    }
     init();
 });
