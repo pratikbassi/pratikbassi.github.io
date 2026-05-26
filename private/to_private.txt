@@ -1,0 +1,1 @@
+# One exportFilename per line (with or without .jpg)

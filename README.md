@@ -26,7 +26,8 @@ The gallery was exported from **Adobe Lightroom** using its web gallery template
 ├── index.html              # Gallery page and image metadata (LR.images)
 ├── _config.yml             # Jekyll / GitHub Pages config
 ├── private/
-│   └── index.html          # Password-gated gallery (cookie auth)
+│   ├── index.html          # Password-gated gallery (cookie auth)
+│   └── to_private.txt      # Names to move from public → private
 ├── upload/                 # Drop photos here (gitignored); processed by add script
 ├── archive/                # Tracked storage for archived photos (not on the site)
 │   ├── names.txt           # Paste exportFilename values to archive
@@ -35,6 +36,7 @@ The gallery was exported from **Adobe Lightroom** using its web gallery template
 ├── scripts/
 │   ├── add_photos.py       # Resize images and update index.html
 │   ├── archive_photos.py   # Move listed photos out of the gallery
+│   ├── move_to_private.py  # Move public photos into encrypted private gallery
 │   ├── gen_private_token.py # Generate password hash for private-gate.js
 │   └── requirements.txt    # Pillow dependency (add script only)
 ├── assets/
@@ -91,6 +93,14 @@ python scripts/add_photos.py --private
 ```
 
 This writes encrypted files under `images/private/encrypted/` and updates `private/index.html`.
+
+**Move public photos to private:** paste `exportFilename` values into `private/to_private.txt`, then:
+
+```bash
+python scripts/move_to_private.py
+```
+
+This encrypts the public JPEGs, removes them from `index.html`, and appends the same metadata to `private/index.html`.
 
 **Limitations:** Anyone with the auth cookies can decrypt in the browser (same as before, but better than public JPEG URLs). Ciphertext can still be downloaded. This is casual privacy, not enterprise security.
 
