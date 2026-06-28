@@ -306,11 +306,22 @@ function init(){
     }
 
     function checkForSpace(){
-        var _isNearBottom = _$w.scrollTop() + _viewportHeight >= _$body.height() - 150;
-        if(_isNearBottom && _thumbsToLoad == 0 && _lastLoadedThumbIndex < LR.images.length - 1){
-            loadMoreThumbnails(_lastLoadedThumbIndex + 1, _rowsToLoadPerScroll);
+        if(_thumbsToLoad > 0 || _lastLoadedThumbIndex >= LR.images.length - 1){
+            return;
         }
-        else if(_$body.height() < _viewportHeight && _thumbsToLoad == 0){
+
+        var _nextIndex = _lastLoadedThumbIndex + 1;
+        var _nextThumbnail = LR.images[_nextIndex];
+        if(!_nextThumbnail){
+            return;
+        }
+
+        var _targetRowHeight = parseInt(getTargetRowHeight(), 10) || 300;
+        var _preloadDistance = Math.max(_viewportHeight, _targetRowHeight * _rowsToLoadPerScroll);
+        var _nextRowTop = _$thumbnailContainer.offset().top + _nextThumbnail.$thumbnail.data("currentRowOffsetTop");
+        var _viewportBottom = _$w.scrollTop() + _viewportHeight;
+
+        if(_nextRowTop <= _viewportBottom + _preloadDistance){
             loadMoreThumbnails(_lastLoadedThumbIndex + 1, _rowsToLoadPerScroll);
         }
     }
