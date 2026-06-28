@@ -39,7 +39,10 @@ function init(){
         _thumbsToLoad = 0,
         _lastLoadedThumbIndex = -1,
         _currentRowContents = [],
-        _rowsToLoadPerScroll = 5;
+        _rowsToLoadPerScroll = 5,
+        _loadingIndicatorShownAt = 0,
+        _loadingIndicatorHideTimeout,
+        _loadingIndicatorMinimumMs = 500;
 
 
     var onWindowResize = debounce(
@@ -84,9 +87,20 @@ function init(){
             return;
         }
         if (_thumbsToLoad > 0) {
+            _loadingIndicatorShownAt = _loadingIndicatorShownAt || Date.now();
+            clearTimeout(_loadingIndicatorHideTimeout);
             _$loadingIndicator.addClass("is-visible");
         } else {
-            _$loadingIndicator.removeClass("is-visible");
+            var _elapsed = Date.now() - _loadingIndicatorShownAt;
+            var _delay = Math.max(_loadingIndicatorMinimumMs - _elapsed, 0);
+            clearTimeout(_loadingIndicatorHideTimeout);
+            _loadingIndicatorHideTimeout = setTimeout(
+                function() {
+                    _$loadingIndicator.removeClass("is-visible");
+                    _loadingIndicatorShownAt = 0;
+                },
+                _delay
+            );
         }
     }
 
@@ -292,7 +306,8 @@ function init(){
     }
 
     function checkForSpace(){
-        if((_$w.scrollTop() + _viewportHeight) == _$body.height() && _thumbsToLoad == 0 && _lastLoadedThumbIndex < LR.images.length - 1){
+        var _isNearBottom = _$w.scrollTop() + _viewportHeight >= _$body.height() - 150;
+        if(_isNearBottom && _thumbsToLoad == 0 && _lastLoadedThumbIndex < LR.images.length - 1){
             loadMoreThumbnails(_lastLoadedThumbIndex + 1, _rowsToLoadPerScroll);
         }
         else if(_$body.height() < _viewportHeight && _thumbsToLoad == 0){
