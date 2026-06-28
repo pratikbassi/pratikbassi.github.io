@@ -24,7 +24,8 @@ function init(){
         _$buttonNextSideLoupe = $("#buttonNextSideLoupe"),
         _$countCurrent = $("#countCurrent"),
         _$countTotal = $("#countTotal"),
-        _$buttonClose = $("#loupeCloseButton");
+        _$buttonClose = $("#loupeCloseButton"),
+        _$loadingIndicator = $("#thumbnailLoadingIndicator");
 
     var i,
         _isOpen = false,
@@ -37,7 +38,8 @@ function init(){
         _viewportHeight = 0,
         _thumbsToLoad = 0,
         _lastLoadedThumbIndex = -1,
-        _currentRowContents = [];
+        _currentRowContents = [],
+        _rowsToLoadPerScroll = 5;
 
 
     var onWindowResize = debounce(
@@ -77,18 +79,36 @@ function init(){
         return dir + exportFilename + _imageExt;
     }
 
+    function updateLoadingIndicator() {
+        if (!_$loadingIndicator.length) {
+            return;
+        }
+        if (_thumbsToLoad > 0) {
+            _$loadingIndicator.addClass("is-visible");
+        } else {
+            _$loadingIndicator.removeClass("is-visible");
+        }
+    }
+
     function assignThumbSrc($img, exportFilename) {
+        if ($img.attr("src")) {
+            return;
+        }
         var path = imagePath(_thumbDir, exportFilename);
+        _thumbsToLoad++;
+        updateLoadingIndicator();
         if (!_encrypted) {
             $img.attr("src", path);
             return;
         }
-        _thumbsToLoad++;
         PrivateGate.decryptToObjectUrl(path).then(function (url) {
             $img.attr("src", url);
         }).catch(function () {
             _thumbsToLoad--;
-            checkForSpace();
+            updateLoadingIndicator();
+            if (_thumbsToLoad === 0) {
+                checkForSpace();
+            }
         });
     }
 
@@ -273,10 +293,10 @@ function init(){
 
     function checkForSpace(){
         if((_$w.scrollTop() + _viewportHeight) == _$body.height() && _thumbsToLoad == 0 && _lastLoadedThumbIndex < LR.images.length - 1){
-            loadMoreThumbnails(_lastLoadedThumbIndex + 1, 1);
+            loadMoreThumbnails(_lastLoadedThumbIndex + 1, _rowsToLoadPerScroll);
         }
         else if(_$body.height() < _viewportHeight && _thumbsToLoad == 0){
-            loadMoreThumbnails(_lastLoadedThumbIndex + 1, 1);
+            loadMoreThumbnails(_lastLoadedThumbIndex + 1, _rowsToLoadPerScroll);
         }
     }
 
@@ -340,7 +360,8 @@ function init(){
         if(_thumbsToLoad > 0){
             _thumbsToLoad--;
         }
-        else {
+        updateLoadingIndicator();
+        if(_thumbsToLoad === 0){
             checkForSpace();
         }
     }
@@ -350,7 +371,8 @@ function init(){
         if(_thumbsToLoad > 0){
             _thumbsToLoad--;
         }
-        else {
+        updateLoadingIndicator();
+        if(_thumbsToLoad === 0){
             checkForSpace();
         }
     }
